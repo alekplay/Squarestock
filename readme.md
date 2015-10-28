@@ -1,13 +1,12 @@
 #Squarestock
 A stock tracker app made for Squarespace as part of the internship interview process.
 
----
-
 ###Idea:
 Squarestock is a simple and clean app to keep up to date with the latest movements of any stock at any of the major market exchanges. 
 
 ###Design:
 ![Design Suggestion](design1.png)
+
 When designing Squarestock, simplicity was an important factor. Many of the existing stock tracker apps (including the one built-into iOS) are overly cluttered and advanced. For most people this may be what they want, but for people like me I just want a simple overview of the daily movements of a given stock.
 
 ###Features:
