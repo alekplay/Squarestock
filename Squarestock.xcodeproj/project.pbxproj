@@ -7,25 +7,59 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		287CE4B81BE1379A00A61517 /* BEMAverageLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 287CE4AF1BE1379A00A61517 /* BEMAverageLine.m */; };
+		287CE4B91BE1379A00A61517 /* BEMCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = 287CE4B11BE1379A00A61517 /* BEMCircle.m */; };
+		287CE4BA1BE1379A00A61517 /* BEMLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 287CE4B31BE1379A00A61517 /* BEMLine.m */; };
+		287CE4BB1BE1379A00A61517 /* BEMPermanentPopupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 287CE4B51BE1379A00A61517 /* BEMPermanentPopupView.m */; };
+		287CE4BC1BE1379A00A61517 /* BEMSimpleLineGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 287CE4B71BE1379A00A61517 /* BEMSimpleLineGraphView.m */; };
 		28D0330D1BE03AD500FB2A5D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D0330C1BE03AD500FB2A5D /* main.m */; };
 		28D033101BE03AD500FB2A5D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D0330F1BE03AD500FB2A5D /* AppDelegate.m */; };
-		28D033131BE03AD500FB2A5D /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D033121BE03AD500FB2A5D /* ViewController.m */; };
 		28D033161BE03AD500FB2A5D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28D033141BE03AD500FB2A5D /* Main.storyboard */; };
 		28D033181BE03AD500FB2A5D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 28D033171BE03AD500FB2A5D /* Assets.xcassets */; };
 		28D0331B1BE03AD500FB2A5D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28D033191BE03AD500FB2A5D /* LaunchScreen.storyboard */; };
+		28D033271BE03B2600FB2A5D /* StockDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D033261BE03B2600FB2A5D /* StockDetailViewController.m */; };
+		28D0332A1BE048BD00FB2A5D /* Stock.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D033291BE048BD00FB2A5D /* Stock.m */; };
+		28D0332D1BE0521400FB2A5D /* StockManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D0332C1BE0521400FB2A5D /* StockManager.m */; };
+		28D033301BE0563800FB2A5D /* TickerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D0332F1BE0563800FB2A5D /* TickerManager.m */; };
+		28D033331BE0584700FB2A5D /* Ticker.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D033321BE0584700FB2A5D /* Ticker.m */; };
+		28D033371BE06E8000FB2A5D /* TickerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D033361BE06E8000FB2A5D /* TickerTableViewCell.m */; };
+		28D0333B1BE06EE800FB2A5D /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D0333A1BE06EE800FB2A5D /* SearchViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		287CE4AE1BE1379A00A61517 /* BEMAverageLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEMAverageLine.h; sourceTree = "<group>"; };
+		287CE4AF1BE1379A00A61517 /* BEMAverageLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEMAverageLine.m; sourceTree = "<group>"; };
+		287CE4B01BE1379A00A61517 /* BEMCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEMCircle.h; sourceTree = "<group>"; };
+		287CE4B11BE1379A00A61517 /* BEMCircle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEMCircle.m; sourceTree = "<group>"; };
+		287CE4B21BE1379A00A61517 /* BEMLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEMLine.h; sourceTree = "<group>"; };
+		287CE4B31BE1379A00A61517 /* BEMLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEMLine.m; sourceTree = "<group>"; };
+		287CE4B41BE1379A00A61517 /* BEMPermanentPopupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEMPermanentPopupView.h; sourceTree = "<group>"; };
+		287CE4B51BE1379A00A61517 /* BEMPermanentPopupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEMPermanentPopupView.m; sourceTree = "<group>"; };
+		287CE4B61BE1379A00A61517 /* BEMSimpleLineGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEMSimpleLineGraphView.h; sourceTree = "<group>"; };
+		287CE4B71BE1379A00A61517 /* BEMSimpleLineGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEMSimpleLineGraphView.m; sourceTree = "<group>"; };
+		28CA9B011BE0C68C001872FC /* ColorConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorConstants.h; sourceTree = "<group>"; };
 		28D033081BE03AD500FB2A5D /* Squarestock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Squarestock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28D0330C1BE03AD500FB2A5D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		28D0330E1BE03AD500FB2A5D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		28D0330F1BE03AD500FB2A5D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		28D033111BE03AD500FB2A5D /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		28D033121BE03AD500FB2A5D /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		28D033151BE03AD500FB2A5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		28D033171BE03AD500FB2A5D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		28D0331A1BE03AD500FB2A5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		28D0331C1BE03AD500FB2A5D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		28D033251BE03B2600FB2A5D /* StockDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockDetailViewController.h; sourceTree = "<group>"; };
+		28D033261BE03B2600FB2A5D /* StockDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockDetailViewController.m; sourceTree = "<group>"; };
+		28D033281BE048BD00FB2A5D /* Stock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stock.h; sourceTree = "<group>"; };
+		28D033291BE048BD00FB2A5D /* Stock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Stock.m; sourceTree = "<group>"; };
+		28D0332B1BE0521400FB2A5D /* StockManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StockManager.h; sourceTree = "<group>"; };
+		28D0332C1BE0521400FB2A5D /* StockManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockManager.m; sourceTree = "<group>"; };
+		28D0332E1BE0563800FB2A5D /* TickerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TickerManager.h; sourceTree = "<group>"; };
+		28D0332F1BE0563800FB2A5D /* TickerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TickerManager.m; sourceTree = "<group>"; };
+		28D033311BE0584700FB2A5D /* Ticker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ticker.h; sourceTree = "<group>"; };
+		28D033321BE0584700FB2A5D /* Ticker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Ticker.m; sourceTree = "<group>"; };
+		28D033351BE06E8000FB2A5D /* TickerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TickerTableViewCell.h; sourceTree = "<group>"; };
+		28D033361BE06E8000FB2A5D /* TickerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TickerTableViewCell.m; sourceTree = "<group>"; };
+		28D033391BE06EE800FB2A5D /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
+		28D0333A1BE06EE800FB2A5D /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,6 +73,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		287CE4AD1BE1379A00A61517 /* BEMSimpleLineGraph */ = {
+			isa = PBXGroup;
+			children = (
+				287CE4AE1BE1379A00A61517 /* BEMAverageLine.h */,
+				287CE4AF1BE1379A00A61517 /* BEMAverageLine.m */,
+				287CE4B01BE1379A00A61517 /* BEMCircle.h */,
+				287CE4B11BE1379A00A61517 /* BEMCircle.m */,
+				287CE4B21BE1379A00A61517 /* BEMLine.h */,
+				287CE4B31BE1379A00A61517 /* BEMLine.m */,
+				287CE4B41BE1379A00A61517 /* BEMPermanentPopupView.h */,
+				287CE4B51BE1379A00A61517 /* BEMPermanentPopupView.m */,
+				287CE4B61BE1379A00A61517 /* BEMSimpleLineGraphView.h */,
+				287CE4B71BE1379A00A61517 /* BEMSimpleLineGraphView.m */,
+			);
+			name = BEMSimpleLineGraph;
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		28CA9B021BE0C691001872FC /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				28CA9B011BE0C68C001872FC /* ColorConstants.h */,
+			);
+			name = Constants;
+			sourceTree = "<group>";
+		};
 		28D032FF1BE03AD500FB2A5D = {
 			isa = PBXGroup;
 			children = (
@@ -58,14 +118,13 @@
 		28D0330A1BE03AD500FB2A5D /* Squarestock */ = {
 			isa = PBXGroup;
 			children = (
-				28D0330E1BE03AD500FB2A5D /* AppDelegate.h */,
-				28D0330F1BE03AD500FB2A5D /* AppDelegate.m */,
-				28D033111BE03AD500FB2A5D /* ViewController.h */,
-				28D033121BE03AD500FB2A5D /* ViewController.m */,
-				28D033141BE03AD500FB2A5D /* Main.storyboard */,
+				28CA9B021BE0C691001872FC /* Constants */,
+				28D033341BE06E6C00FB2A5D /* Managers */,
+				28D033381BE06E8700FB2A5D /* Views */,
+				28D033241BE03AFE00FB2A5D /* Models */,
+				28D033231BE03AF900FB2A5D /* Controllers */,
+				28D033221BE03AF300FB2A5D /* XIBs */,
 				28D033171BE03AD500FB2A5D /* Assets.xcassets */,
-				28D033191BE03AD500FB2A5D /* LaunchScreen.storyboard */,
-				28D0331C1BE03AD500FB2A5D /* Info.plist */,
 				28D0330B1BE03AD500FB2A5D /* Supporting Files */,
 			);
 			path = Squarestock;
@@ -74,9 +133,64 @@
 		28D0330B1BE03AD500FB2A5D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				287CE4AD1BE1379A00A61517 /* BEMSimpleLineGraph */,
+				28D0331C1BE03AD500FB2A5D /* Info.plist */,
 				28D0330C1BE03AD500FB2A5D /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		28D033221BE03AF300FB2A5D /* XIBs */ = {
+			isa = PBXGroup;
+			children = (
+				28D033141BE03AD500FB2A5D /* Main.storyboard */,
+				28D033191BE03AD500FB2A5D /* LaunchScreen.storyboard */,
+			);
+			name = XIBs;
+			sourceTree = "<group>";
+		};
+		28D033231BE03AF900FB2A5D /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				28D033251BE03B2600FB2A5D /* StockDetailViewController.h */,
+				28D033261BE03B2600FB2A5D /* StockDetailViewController.m */,
+				28D033391BE06EE800FB2A5D /* SearchViewController.h */,
+				28D0333A1BE06EE800FB2A5D /* SearchViewController.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		28D033241BE03AFE00FB2A5D /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				28D0330E1BE03AD500FB2A5D /* AppDelegate.h */,
+				28D0330F1BE03AD500FB2A5D /* AppDelegate.m */,
+				28D033311BE0584700FB2A5D /* Ticker.h */,
+				28D033321BE0584700FB2A5D /* Ticker.m */,
+				28D033281BE048BD00FB2A5D /* Stock.h */,
+				28D033291BE048BD00FB2A5D /* Stock.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		28D033341BE06E6C00FB2A5D /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				28D0332E1BE0563800FB2A5D /* TickerManager.h */,
+				28D0332F1BE0563800FB2A5D /* TickerManager.m */,
+				28D0332B1BE0521400FB2A5D /* StockManager.h */,
+				28D0332C1BE0521400FB2A5D /* StockManager.m */,
+			);
+			name = Managers;
+			sourceTree = "<group>";
+		};
+		28D033381BE06E8700FB2A5D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				28D033351BE06E8000FB2A5D /* TickerTableViewCell.h */,
+				28D033361BE06E8000FB2A5D /* TickerTableViewCell.m */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -110,6 +224,7 @@
 				TargetAttributes = {
 					28D033071BE03AD500FB2A5D = {
 						CreatedOnToolsVersion = 7.1;
+						DevelopmentTeam = W96SY39A42;
 					};
 				};
 			};
@@ -149,9 +264,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				28D033131BE03AD500FB2A5D /* ViewController.m in Sources */,
+				28D033271BE03B2600FB2A5D /* StockDetailViewController.m in Sources */,
+				28D0332D1BE0521400FB2A5D /* StockManager.m in Sources */,
+				28D033331BE0584700FB2A5D /* Ticker.m in Sources */,
+				287CE4BA1BE1379A00A61517 /* BEMLine.m in Sources */,
+				287CE4B81BE1379A00A61517 /* BEMAverageLine.m in Sources */,
+				287CE4BC1BE1379A00A61517 /* BEMSimpleLineGraphView.m in Sources */,
 				28D033101BE03AD500FB2A5D /* AppDelegate.m in Sources */,
+				287CE4B91BE1379A00A61517 /* BEMCircle.m in Sources */,
+				28D0333B1BE06EE800FB2A5D /* SearchViewController.m in Sources */,
+				28D033301BE0563800FB2A5D /* TickerManager.m in Sources */,
+				28D033371BE06E8000FB2A5D /* TickerTableViewCell.m in Sources */,
+				28D0332A1BE048BD00FB2A5D /* Stock.m in Sources */,
 				28D0330D1BE03AD500FB2A5D /* main.m in Sources */,
+				287CE4BB1BE1379A00A61517 /* BEMPermanentPopupView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,6 +387,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Squarestock/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = me.aleksanders.Squarestock;
@@ -272,6 +399,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Squarestock/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = me.aleksanders.Squarestock;
@@ -298,6 +426,7 @@
 				28D033211BE03AD500FB2A5D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
