@@ -82,13 +82,15 @@
                 });
             } else {
                 NSLog(@"Yahoo Stock Api - Bad HTTP Request: %ld", (long)httpResponse.statusCode);
-                NSError *customError = [NSError errorWithDomain:@"me.aleksanders.Squarestock.ErrorDomain" code:0 userInfo:@{NSLocalizedDescriptionKey: @"Bad HTTP Request"}];
+                
+                NSError *customError = [self errorWithDescription:@"Bad HTTP Request"];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     completionHandler(nil, customError);
                 });
             }
         } else {
             NSLog(@"Yahoo Stock Api - Error: %@", error.localizedDescription);
+            
             dispatch_async(dispatch_get_main_queue(), ^{
                 completionHandler(nil, error);
             });
@@ -179,6 +181,12 @@
     }];
     
     [self.lookUpDataTask resume];
+}
+
+#pragma mark Errors
+
+- (NSError *)errorWithDescription:(NSString *)description {
+    return [[NSError alloc] initWithDomain:@"me.aleksanders.Squarestock.YahooAPI.ErrorDomain" code:0 userInfo:@{NSLocalizedDescriptionKey: description}];
 }
 
 #pragma mark Other

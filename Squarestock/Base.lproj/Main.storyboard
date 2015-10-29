@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wdX-vF-5ac">
-                                <rect key="frame" x="32" y="37" width="38" height="14"/>
+                                <rect key="frame" x="32" y="30" width="38" height="27"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="14" id="qps-eH-R9m"/>
@@ -27,6 +27,11 @@
                                 <state key="normal" title="search">
                                     <color key="titleColor" red="0.20392156862745098" green="0.66666666666666663" blue="0.86274509803921573" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="qps-eH-R9m"/>
+                                    </mask>
+                                </variation>
                                 <connections>
                                     <action selector="searchButtonDidPress:" destination="z4R-DT-NLy" eventType="touchUpInside" id="ZNL-1N-vL0"/>
                                 </connections>
@@ -168,8 +173,14 @@
                             <constraint firstItem="lRa-nb-wF6" firstAttribute="top" secondItem="rXV-9K-eRo" secondAttribute="bottom" constant="16" id="qOR-yO-orf"/>
                             <constraint firstItem="Nb3-Um-lMa" firstAttribute="centerX" secondItem="lwP-7r-yw7" secondAttribute="centerX" id="rh4-ZA-xhn"/>
                             <constraint firstItem="pBw-Ed-2Qt" firstAttribute="top" secondItem="o60-5c-CwE" secondAttribute="bottom" priority="750" constant="48" id="swy-ic-Q5z"/>
+                            <constraint firstItem="wdX-vF-5ac" firstAttribute="top" secondItem="rXV-9K-eRo" secondAttribute="bottom" constant="10" id="w16-YV-BMa"/>
                             <constraint firstAttribute="trailing" secondItem="pBw-Ed-2Qt" secondAttribute="trailing" id="zKG-LH-lgs"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="U46-es-dZW"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
                         <outlet property="lineChartView" destination="pBw-Ed-2Qt" id="XgX-RR-G8b"/>
@@ -260,18 +271,46 @@
                                     <outlet property="delegate" destination="axr-eB-wq0" id="2FO-9B-Ga5"/>
                                 </connections>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QYA-H0-Yjw">
+                                <rect key="frame" x="32" y="30" width="37" height="27"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="14" id="fQ6-MO-5MU"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <state key="normal" title="cancel">
+                                    <color key="titleColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="fQ6-MO-5MU"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <action selector="cancelButtonDidPress:" destination="axr-eB-wq0" eventType="touchUpInside" id="fWs-uy-o3J"/>
+                                    <action selector="searchButtonDidPress:" destination="z4R-DT-NLy" eventType="touchUpInside" id="0VH-gv-L7N"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="G4P-w4-DAC" firstAttribute="leading" secondItem="KJl-zv-rDu" secondAttribute="leading" constant="32" id="1mD-HD-G52"/>
                             <constraint firstItem="q0w-8W-siO" firstAttribute="leading" secondItem="KJl-zv-rDu" secondAttribute="leading" constant="32" id="5NS-Xq-Mo5"/>
+                            <constraint firstItem="QYA-H0-Yjw" firstAttribute="top" secondItem="WKg-ou-Jer" secondAttribute="bottom" constant="10" id="AZM-jI-DPq"/>
+                            <constraint firstItem="QYA-H0-Yjw" firstAttribute="top" secondItem="WKg-ou-Jer" secondAttribute="bottom" constant="17" id="HFA-tb-Xqd"/>
                             <constraint firstAttribute="trailing" secondItem="G4P-w4-DAC" secondAttribute="trailing" constant="32" id="HMO-gL-CSA"/>
+                            <constraint firstItem="QYA-H0-Yjw" firstAttribute="leading" secondItem="KJl-zv-rDu" secondAttribute="leading" constant="32" id="Vxy-Yn-mgz"/>
                             <constraint firstItem="q0w-8W-siO" firstAttribute="top" secondItem="WKg-ou-Jer" secondAttribute="bottom" constant="46" id="ZPl-5w-5Fh"/>
                             <constraint firstItem="INx-Rc-av7" firstAttribute="top" secondItem="G4P-w4-DAC" secondAttribute="bottom" constant="32" id="hce-kC-ZJ8"/>
                             <constraint firstItem="G4P-w4-DAC" firstAttribute="top" secondItem="q0w-8W-siO" secondAttribute="bottom" constant="40" id="n4C-uT-Exk"/>
                             <constraint firstAttribute="trailing" secondItem="q0w-8W-siO" secondAttribute="trailing" constant="32" id="wVp-ro-Wte"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="HFA-tb-Xqd"/>
+                            </mask>
+                        </variation>
                     </view>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <connections>

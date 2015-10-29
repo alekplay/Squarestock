@@ -29,10 +29,6 @@
 
 @implementation SearchViewController
 
-/*  TO DO:
-    1. Open/ Close/ Selection ANIMATIONS
- */
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -48,11 +44,11 @@
         } completion:nil];
     }];
     
-    // Set up the array to hold the result tickers
-    self.companies = [NSMutableArray array];
-    
     // Set the placeholder of the textfield
     self.textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:self.currentCompany.symbol attributes:@{NSForegroundColorAttributeName:kSQGrayColor}];
+    
+    // Set up the array to hold the result tickers
+    self.companies = [NSMutableArray array];
     
     // Open up the keyboard
     [self.textField becomeFirstResponder];
@@ -61,7 +57,7 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
-    // Remove the keyboard *before* the view is offscreen
+    // Remove the keyboard before the view is offscreen
     [self.textField resignFirstResponder];
 }
 
@@ -99,9 +95,14 @@
         [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
         
         [[StockManager sharedManager] lookupCompaniesForString:searchText withCompletionHandler:^(NSArray *companies, NSError *error) {
-            self.companies = [companies copy];
-            [self.tableView reloadData];
+            if (!error) {
+                self.companies = [companies copy];
+            } else {
+                self.companies = [NSArray array];
+                NSLog(@"Error: %@", error.localizedDescription);
+            }
             
+            [self.tableView reloadData];
             [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         }];
     } else {
@@ -110,10 +111,16 @@
     }
 }
 
-#pragma mark Interaction
+#pragma mark Touch Events
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    // The user tapped *outside* of the table or textfield, so inform the delegate the user cancelled
+    // The user tapped outside of the table or textfield, so inform the delegate the user cancelled
+    [self cancelButtonDidPress:self];
+}
+
+#pragma mark Actions
+
+- (IBAction)cancelButtonDidPress:(id)sender {
     [self.delegate searchViewControllerDidCancel:self];
 }
 

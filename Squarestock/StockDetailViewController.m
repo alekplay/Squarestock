@@ -18,7 +18,8 @@ typedef NS_ENUM(NSInteger, StockDetailViewControllerStatus) {
     StockDetailViewControllerStatusLoading = 1,
     StockDetailViewControllerStatusMarketOpen,
     StockDetailViewControllerStatusMarketClosed,
-    StockDetailViewControllerStatusMarketDelayed
+    StockDetailViewControllerStatusMarketDelayed,
+    StockDetailViewControllerStatusError
 };
 
 @interface StockDetailViewController ()
@@ -120,8 +121,9 @@ typedef NS_ENUM(NSInteger, StockDetailViewControllerStatus) {
             break;
         case StockDetailViewControllerStatusMarketOpen:
         case StockDetailViewControllerStatusMarketDelayed:
+        case StockDetailViewControllerStatusError:
         default:
-            statusString = nil;
+            statusString = [[NSAttributedString alloc] initWithString:@""];
             break;
     }
     
@@ -189,10 +191,16 @@ typedef NS_ENUM(NSInteger, StockDetailViewControllerStatus) {
 #pragma mark Search View Controller Delegate
 
 - (void)searchViewController:(SearchViewController *)searchViewController didFinishSearchingForCompany:(Company *)company {
+    // Get the selected stock and update the data
     self.stock = [[Stock alloc] initWithCompany:company currentPrice:nil andOpenPrice:nil];
     [self getCurrentData];
     
+    // Dismiss the search view controller
     [self dismissViewControllerAnimated:true completion:nil];
+    
+    // Save the selected company in the user defaults
+    NSData *archivedCompany = [NSKeyedArchiver archivedDataWithRootObject:company];
+    [[NSUserDefaults standardUserDefaults] setObject:archivedCompany forKey:kSQArchivedSelectedCompanyKey];
 }
 
 - (void)searchViewControllerDidCancel:(SearchViewController *)searchViewController {
@@ -210,7 +218,7 @@ typedef NS_ENUM(NSInteger, StockDetailViewControllerStatus) {
     }
 }
 
-#pragma mark User Actions
+#pragma mark Actions
 
 - (IBAction)searchButtonDidPress:(id)sender {
     [self performSegueWithIdentifier:@"StockDetailToSearchSegue" sender:self];
@@ -220,8 +228,17 @@ typedef NS_ENUM(NSInteger, StockDetailViewControllerStatus) {
 
 - (void)displayError:(NSError *)error {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *action = [UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:nil];
-    [alert addAction:action];
+    
+    UIAlertAction *againAction = [UIAlertAction actionWithTitle:@"Try again" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [self getCurrentData];
+    }];
+    [alert addAction:againAction];
+    
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        self.currentStatus = StockDetailViewControllerStatusError;
+        [self updateStatusLabel];
+    }];
+    [alert addAction:okAction];
     
     [self presentViewController:alert animated:true completion:nil];
 }
