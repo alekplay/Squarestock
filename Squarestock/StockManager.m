@@ -100,7 +100,7 @@
 
 - (void)lookupCompaniesForString:(NSString *)string withCompletionHandler:(void (^)(NSArray *, NSError *))completionHandler {
     
-    // Cancel the previous request if it is still running
+    // Cancel the previous request if it's still running
     if (self.lookUpDataTask != nil && self.lookUpDataTask.state == NSURLSessionTaskStateRunning) {
         [self.lookUpDataTask cancel];
     }
