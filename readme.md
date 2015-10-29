@@ -28,6 +28,8 @@ Search for either company name or ticker symbol, and select the stock you want m
 
 To close the search menu without selecting a new stock, tap anywhere outside the tableview and textfield or "cancel" in the upper left corner.
 
+![GIF of app in action](squarestock.gif)
+
 ###Architecture
 I used the Apple recommended `MVC` (`Model-View-Controller`) architecture, with the addition of **managers**. A manager is responsible for querying the web services, handling the response, and creating the objects.
 
