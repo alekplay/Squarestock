@@ -8,8 +8,18 @@
 
 #import "StockDetailViewController.h"
 #import "StockManager.h"
-#import "TickerManager.h"
-#import "ColorConstants.h"
+#import "Constants.h"
+#import "Stock.h"
+#import "Price.h"
+#import "Company.h"
+#import "LineGraphView.h"
+
+typedef NS_ENUM(NSInteger, StockDetailViewControllerStatus) {
+    StockDetailViewControllerStatusLoading = 1,
+    StockDetailViewControllerStatusMarketOpen,
+    StockDetailViewControllerStatusMarketClosed,
+    StockDetailViewControllerStatusMarketDelayed
+};
 
 @interface StockDetailViewController ()
 
@@ -21,11 +31,12 @@
 @property (weak, nonatomic) IBOutlet UILabel *stockPriceTimeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *stockPriceLabel;
 @property (weak, nonatomic) IBOutlet UILabel *stockPriceChangeLabel;
-@property (weak, nonatomic) IBOutlet BEMSimpleLineGraphView *lineChartView;
+@property (weak, nonatomic) IBOutlet LineGraphView *lineChartView;
 
 #pragma mark Properties
 
 @property (nonatomic, strong) Stock *stock;
+@property (nonatomic) StockDetailViewControllerStatus currentStatus;
 
 @end
 
@@ -34,11 +45,7 @@
 @implementation StockDetailViewController
 
 /*  TO DO:
-    1. ANIMATIONS
-    2. Make sure currency matches market country
-    3. CLEAN UP CODE
-        * Make dateformatters shared object
-        * Divide out responsibility from view controller
+    1. Errors
  */
 
 #pragma mark View Layout
@@ -46,98 +53,126 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Remove placeholder content in labels
-    [self emptyLabels];
-    
-    // Create a gradient to apply to the bottom portion of the graph
-    CGColorSpaceRef colorspace = CGColorSpaceCreateDeviceRGB();
-    size_t num_locations = 2;
-    CGFloat locations[2] = {1.0, 0.0};
-    CGFloat components[8] = {
-        1.0, 1.0, 1.0, 1.0,
-        1.0, 1.0, 1.0, 0.0
-    };
-    
-    // Apply the gradient to the bottom portion of the graph
-    self.lineChartView.gradientBottom = CGGradientCreateWithColorComponents(colorspace, components, locations, num_locations);
-    
-    // Add a tgr to the stock ticker label
-    UITapGestureRecognizer *titleTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tickerSymbolLabelDidTap:)];
+    // Add a gesture recognizer to the ticker label
+    UITapGestureRecognizer *titleTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(searchButtonDidPress:)];
     [self.stockTickerLabel addGestureRecognizer:titleTapGestureRecognizer];
+    
+    // Get the stored company
+    NSData *archivedCompany = [[NSUserDefaults standardUserDefaults] objectForKey:kSQArchivedSelectedCompanyKey];
+    Company *company = [NSKeyedUnarchiver unarchiveObjectWithData:archivedCompany];
+    self.stock = [[Stock alloc] initWithCompany:company currentPrice:nil andOpenPrice:nil];
+    
+    [self getCurrentData];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+#pragma mark Data
+
+- (void)getCurrentData {
+    // Set the current status
+    self.currentStatus = StockDetailViewControllerStatusLoading;
+    [self updateStatusLabel];
     
-    // Get the stored ticker
-    NSData *archivedTicker = [[NSUserDefaults standardUserDefaults] objectForKey:@"ArchivedSelectedTicker"];
-    Ticker *ticker = [NSKeyedUnarchiver unarchiveObjectWithData:archivedTicker];
+    // Update company info labels
+    [self updateCompanyInfoLabels];
     
-    if (self.stock.ticker != ticker) {
-        [self emptyLabels];
-        [self.lineChartView reloadGraph];
-    }
+    // Reset stock info labels and graph
+    [self updateStockInfoLabels];
+    [self.lineChartView reloadGraph];
     
-    // Get the current data for stored ticker
-    [[StockManager sharedManager] getCurrentDataForTicker:ticker withCompletionHandler:^(Stock *stock, NSError *error) {
+    // Set the activity indicator
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    
+    // Get information about current stock
+    [[StockManager sharedManager] getCurrentDataForCompany:self.stock.company withCompletionHandler:^(Stock *stock, NSError *error) {
         if (!error) {
+            // Update the current stock
             self.stock = stock;
-            [self updateLabels];
+            
+            // Determine current status
+            [self determineCurrentStatus];
+            [self updateStatusLabel];
+            
+            // Update stock info labels
+            [self updateStockInfoLabels];
+            
+            // Update chart
             [self.lineChartView reloadGraph];
+            
         } else {
-            NSLog(@"Error: %@", error.localizedDescription);
+            [self displayError:error];
         }
+        
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     }];
 }
 
-- (void)updateLabels {
-    // Get the current status of the market based on when the last trade was executed, and change the text color
+#pragma mark Labels
+
+- (void)updateStatusLabel {
     NSAttributedString *statusString;
-    if ([self.stock.tradeTime timeIntervalSinceNow] > -60 * 60) {
-        statusString = [[NSAttributedString alloc] initWithString:@"market is open" attributes:@{NSForegroundColorAttributeName: kSQGreenColor}];
-    } else {
-        statusString = [[NSAttributedString alloc] initWithString:@"market is closed" attributes:@{NSForegroundColorAttributeName: kSQRedColor}];
+    
+    switch (self.currentStatus) {
+        case StockDetailViewControllerStatusLoading:
+            statusString = [[NSAttributedString alloc] initWithString:@"loading..." attributes:nil];
+            break;
+        case StockDetailViewControllerStatusMarketClosed:
+            statusString = [[NSAttributedString alloc] initWithString:@"market is closed" attributes:@{NSForegroundColorAttributeName: kSQRedColor}];
+            break;
+        case StockDetailViewControllerStatusMarketOpen:
+        case StockDetailViewControllerStatusMarketDelayed:
+        default:
+            statusString = nil;
+            break;
     }
+    
     self.statusLabel.attributedText = statusString;
+}
+
+- (void)updateCompanyInfoLabels {
+    self.marketLabel.text = [self.stock.company.market uppercaseString];
+    self.stockTickerLabel.text = self.stock.company.symbol;
+    self.stockNameLabel.text = self.stock.company.name;
+}
+
+- (void)updateStockInfoLabels {
+    NSDate *lastTradeTime = self.stock.currentPrice.tradeTime;
     
     // Get the time since the last trade was executed (<1h : "now", <24h : "hh/HH:mm(a)", >24h : short date + time format)
     NSString *timeString = @"now";
-    if ([self.stock.tradeTime timeIntervalSinceNow] < -60 * 60) {
+    if ([lastTradeTime timeIntervalSinceNow] < -60 * 60) {
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         formatter.timeStyle = NSDateFormatterShortStyle;
-        if ([self.stock.tradeTime timeIntervalSinceNow] < -60 * 60 * 24) {
+        if ([lastTradeTime timeIntervalSinceNow] < -60 * 60 * 24) {
             formatter.dateStyle = NSDateFormatterShortStyle;
         }
-        timeString = [formatter stringFromDate:self.stock.tradeTime];
+        timeString = [formatter stringFromDate:lastTradeTime];
     }
     
     // Figure out whether the price has gone up or down, and change the text color
     NSDictionary *priceChangeStringColorAttribute;
-    if (self.stock.change < 0) {
+    if (self.stock.dailyChange < 0) {
         priceChangeStringColorAttribute = @{NSForegroundColorAttributeName: kSQRedColor};
     } else {
         priceChangeStringColorAttribute = @{NSForegroundColorAttributeName: kSQGreenColor};
     }
-    NSAttributedString *priceChangeString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%.2f (%.2f%%)", self.stock.change, self.stock.pctChange] attributes:priceChangeStringColorAttribute];
+    NSAttributedString *priceChangeString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%.2f (%.2f%%)", self.stock.dailyChange, self.stock.dailyChangePercent] attributes:priceChangeStringColorAttribute];
     
-    // Set the market name, ticker symbol, company name, price last updated, and current price
-    self.marketLabel.text = [self.stock.ticker.market uppercaseString];
-    self.stockTickerLabel.text = self.stock.ticker.symbol;
-    self.stockNameLabel.text = self.stock.ticker.name;
-    self.stockPriceLabel.text = [NSString stringWithFormat:@"%.2f", self.stock.currentPrice];
+    self.stockPriceLabel.text = [NSString stringWithFormat:@"%.2f", self.stock.currentPrice.value];
     self.stockPriceChangeLabel.attributedText = priceChangeString;
     self.stockPriceTimeLabel.text = timeString;
-    self.statusLabel.attributedText = statusString;
 }
 
-- (void)emptyLabels {
-    self.marketLabel.text = @"";
-    self.stockTickerLabel.text = @"";
-    self.stockNameLabel.text = @"";
-    self.stockPriceLabel.text = @"";
-    self.stockPriceChangeLabel.text = @"";
-    self.stockPriceTimeLabel.text = @"";
-    self.statusLabel.text = @"";
+#pragma mark Status
+
+- (void)determineCurrentStatus {
+    NSDate *lastTradeTime = self.stock.currentPrice.tradeTime;
+    
+    // Get the current status of the market based on when the last trade was executed
+    if ([lastTradeTime timeIntervalSinceNow] > -60 * 60) {
+        self.currentStatus = StockDetailViewControllerStatusMarketOpen;
+    } else {
+        self.currentStatus = StockDetailViewControllerStatusMarketClosed;
+    }
 }
 
 #pragma mark Line Graph View Data Source
@@ -147,14 +182,48 @@
 }
 
 - (CGFloat)lineGraph:(BEMSimpleLineGraphView *)graph valueForPointAtIndex:(NSInteger)index {
-    NSNumber *price = self.stock.historicalPrices[index];
-    return [price intValue];
+    Price *price = self.stock.historicalPrices[index];
+    return (NSInteger)price.value;
+}
+
+#pragma mark Search View Controller Delegate
+
+- (void)searchViewController:(SearchViewController *)searchViewController didFinishSearchingForCompany:(Company *)company {
+    self.stock = [[Stock alloc] initWithCompany:company currentPrice:nil andOpenPrice:nil];
+    [self getCurrentData];
+    
+    [self dismissViewControllerAnimated:true completion:nil];
+}
+
+- (void)searchViewControllerDidCancel:(SearchViewController *)searchViewController {
+    [self.lineChartView reloadGraph];
+    [self dismissViewControllerAnimated:true completion:nil];
+}
+
+#pragma mark Navigation
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"StockDetailToSearchSegue"]) {
+        SearchViewController *controller = (SearchViewController *)segue.destinationViewController;
+        controller.delegate = self;
+        controller.currentCompany = self.stock.company;
+    }
 }
 
 #pragma mark User Actions
 
-- (void)tickerSymbolLabelDidTap:(id)sender {
+- (IBAction)searchButtonDidPress:(id)sender {
     [self performSegueWithIdentifier:@"StockDetailToSearchSegue" sender:self];
+}
+
+#pragma mark Errors
+
+- (void)displayError:(NSError *)error {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *action = [UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:nil];
+    [alert addAction:action];
+    
+    [self presentViewController:alert animated:true completion:nil];
 }
 
 @end

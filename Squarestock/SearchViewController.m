@@ -8,8 +8,9 @@
 
 #import "SearchViewController.h"
 #import "TickerTableViewCell.h"
-#import "TickerManager.h"
-#import "ColorConstants.h"
+#import "StockManager.h"
+#import "Constants.h"
+#import "Company.h"
 
 @interface SearchViewController ()
 
@@ -20,7 +21,7 @@
 
 #pragma mark Properties
 
-@property (nonatomic, strong) NSArray *tickers;
+@property (nonatomic, strong) NSArray *companies;
 
 @end
 
@@ -48,11 +49,10 @@
     }];
     
     // Set up the array to hold the result tickers
-    self.tickers = [NSMutableArray array];
+    self.companies = [NSMutableArray array];
     
-    // Find the current ticker the user selected and add it as a placeholder with a readable color
-    Ticker *currentTicker = [NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:@"ArchivedSelectedTicker"]];
-    self.textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:currentTicker.symbol attributes:@{NSForegroundColorAttributeName:kSQGrayColor}];
+    // Set the placeholder of the textfield
+    self.textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:self.currentCompany.symbol attributes:@{NSForegroundColorAttributeName:kSQGrayColor}];
     
     // Open up the keyboard
     [self.textField becomeFirstResponder];
@@ -68,16 +68,16 @@
 #pragma mark TableView Data Source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.tickers count];
+    return [self.companies count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     TickerTableViewCell *cell = (TickerTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"TickerCell" forIndexPath:indexPath];
     
-    Ticker *ticker = self.tickers[indexPath.row];
+    Company *company = self.companies[indexPath.row];
     
-    cell.tickerSymbolLabel.text = ticker.symbol;
-    cell.tickerNameLabel.text = ticker.name;
+    cell.tickerSymbolLabel.text = company.symbol;
+    cell.tickerNameLabel.text = company.name;
     
     return cell;
 }
@@ -85,24 +85,27 @@
 #pragma mark TableView Delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Find and save the ticker the user pressed
-    Ticker *ticker = self.tickers[indexPath.row];
-    NSData *archivedTicker = [NSKeyedArchiver archivedDataWithRootObject:ticker];
-    [[NSUserDefaults standardUserDefaults] setObject:archivedTicker forKey:@"ArchivedSelectedTicker"];
+    // Find the company the user pressed
+    Company *company = self.companies[indexPath.row];
     
-    // Dismiss the search view controller
-    [self dismissViewControllerAnimated:true completion:nil];
+    // Return company to the delegate
+    [self.delegate searchViewController:self didFinishSearchingForCompany:company];
 }
 
 - (IBAction)textFieldDidChange:(UITextField *)textField {
-    NSString *tickerSymbol = textField.text;
-    if (tickerSymbol.length > 0) {
-        [[TickerManager sharedManager] lookupTicker:tickerSymbol withCompletionHandler:^(NSArray *tickers, NSError *error) {
-            self.tickers = [tickers copy];
+    NSString *searchText = textField.text;
+    if (searchText.length > 0) {
+        
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+        
+        [[StockManager sharedManager] lookupCompaniesForString:searchText withCompletionHandler:^(NSArray *companies, NSError *error) {
+            self.companies = [companies copy];
             [self.tableView reloadData];
+            
+            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         }];
     } else {
-        self.tickers = [NSArray array];
+        self.companies = [NSArray array];
         [self.tableView reloadData];
     }
 }
@@ -110,8 +113,8 @@
 #pragma mark Interaction
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    // The user tapped *outside* of the table or textfield, so dismiss the search view controller
-    [self dismissViewControllerAnimated:true completion:nil];
+    // The user tapped *outside* of the table or textfield, so inform the delegate the user cancelled
+    [self.delegate searchViewControllerDidCancel:self];
 }
 
 #pragma mark Other

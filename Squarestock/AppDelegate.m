@@ -7,7 +7,8 @@
 //
 
 #import "AppDelegate.h"
-#import "Ticker.h"
+#import "Company.h"
+#import "Constants.h"
 
 @implementation AppDelegate
 
@@ -19,10 +20,10 @@
 }
 
 - (void)registerDefaults {
-    // Set Apple to be the standard ticker when the user first runs the app
-    Ticker *ticker = [[Ticker alloc] initWithSymbol:@"AAPL" name:@"Apple Inc." andMarket:@"NASDAQ"];
-    NSData *archivedTicker = [NSKeyedArchiver archivedDataWithRootObject:ticker];
-    [[NSUserDefaults standardUserDefaults] registerDefaults:@{@"ArchivedSelectedTicker":archivedTicker}];
+    // Set Apple to be the standard company when the user first runs the app
+    Company *company = [[Company alloc] initWithSymbol:@"AAPL" name:@"Apple Inc." andMarket:@"NASDAQ"];
+    NSData *archive = [NSKeyedArchiver archivedDataWithRootObject:company];
+    [[NSUserDefaults standardUserDefaults] registerDefaults:@{kSQArchivedSelectedCompanyKey: archive}];
 }
 
 @end

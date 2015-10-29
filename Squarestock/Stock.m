@@ -7,54 +7,75 @@
 //
 
 #import "Stock.h"
+#import "Company.h"
+#import "Price.h"
 
 @implementation Stock
 
+#pragma mark INIT
+
 // Designated initializer
-- (instancetype)initWithTicker:(Ticker *)ticker currentPrice:(float)stockPrice time:(NSDate *)tradeTime andOpen:(float)openPrice {
-    if ([super init]) {
-        self.ticker = ticker;
-        
-        self.currentPrice = stockPrice;
-        self.openPrice = openPrice;
-        self.change = self.currentPrice - self.openPrice;
-        self.pctChange = ((self.currentPrice == 0.0) ? 0.0 : (fabsf(self.change / self.currentPrice) * 100.0));
-        
-        self.tradeTime = tradeTime;
-        
-        self.historicalPrices = [self generateArrayWithRandomHistoricalPrices];
+- (instancetype)initWithCompany:(Company *)company currentPrice:(Price *)currentPrice andOpenPrice:(Price *)openPrice {
+    if (self = [super init]) {
+        _company = company;
+        _currentPrice = currentPrice;
+        _openPrice = openPrice;
+        if (_currentPrice && _openPrice) {
+            _historicalPrices = [self arrayWithHistoricalPrices];
+        }
     }
     
     return self;
 }
 
+// Convenience initializer
+- (instancetype)initWithCompany:(Company *)company currentPrice:(float)currentPriceValue atTime:(NSDate *)lastTradeTime andOpenPrice:(float)openPriceValue {
+    Price *currentPrice = [[Price alloc] initWithValue:currentPriceValue andTradeTime:lastTradeTime];
+    Price *openPrice = [[Price alloc] initWithValue:openPriceValue andTradeTime:nil];
+    
+    return [self initWithCompany:company currentPrice:currentPrice andOpenPrice:openPrice];
+}
+
+// Dummy data initializer
 - (instancetype)init {
-    return [self initWithTicker:[[Ticker alloc] init] currentPrice:0.0 time:[NSDate date] andOpen:0.0];
+    return [self initWithCompany:[[Company alloc] init] currentPrice:[[Price alloc] init] andOpenPrice:[[Price alloc] init]];
 }
 
-- (NSArray *)generateArrayWithRandomHistoricalPrices {
-    // Get the min and max stock value
-    int minimumValue = MIN((int)self.openPrice, (int)self.currentPrice);
-    int maximumValue = MAX((int)self.openPrice, (int)self.currentPrice);
+#pragma mark Getters
+
+- (float)dailyChange {
+    return self.currentPrice.value - self.openPrice.value;
+}
+
+- (float)dailyChangePercent {
+    return ((self.currentPrice.value == 0.0) ? 0.0 : (fabsf(self.dailyChange / self.currentPrice.value) * 100.0));
+}
+
+#pragma mark Helpers
+
+// Generates array of 4 random prices and accurate end values (open-rand-rand-rand-rand-current)
+- (NSArray *)arrayWithHistoricalPrices {
     
-    // Create a lower bound 20% below  min, and upper bound 30% above max
-    int lowerBound = minimumValue - (minimumValue * 0.2);
-    int upperBound = maximumValue + (maximumValue * 0.3);
+    // Get the lower and upper bound (20% of min/ max values)
+    NSInteger minimumValue = MIN((NSInteger)roundf(self.currentPrice.value), (NSInteger)roundf(self.openPrice.value));
+    NSInteger maximumValue = MAX((NSInteger)roundf(self.currentPrice.value), (NSInteger)roundf(self.openPrice.value));
+    NSInteger lowerBound = minimumValue - (minimumValue * 0.2);
+    NSInteger upperBound = maximumValue + (maximumValue * 0.2);
     
-    // Generate a list of random historical prices, starting with the open and ending at the current price
-    NSMutableArray *mutableHistoricalPrices = [NSMutableArray arrayWithObject:[NSNumber numberWithInt:(int)self.openPrice]];
-    for (int i = 1; i < 6; i++) {
-        int randomValue = lowerBound + arc4random_uniform(upperBound - lowerBound);
-        [mutableHistoricalPrices addObject:[NSNumber numberWithInt:randomValue]];
+    // Add open price as first element in array
+    NSMutableArray *mutableHistoricalPrices = [NSMutableArray arrayWithObject:self.openPrice];
+    
+    // Generate 4 random prices between the bounds (4 + 2 = 6 hours in a normal trading day)
+    for (NSInteger i = 1; i < 6; i++) {
+        NSInteger randomValue = lowerBound + arc4random_uniform((u_int32_t)upperBound - (u_int32_t)lowerBound);
+        Price *price = [[Price alloc] initWithValue:randomValue andTradeTime:nil];
+        [mutableHistoricalPrices addObject:price];
     }
-    [mutableHistoricalPrices addObject:[NSNumber numberWithInt:(int)self.currentPrice]];
     
-    // Return an immutable copy of this array
+    // Add current price as last element of array
+    [mutableHistoricalPrices addObject:self.currentPrice];
+    
     return [mutableHistoricalPrices copy];
-}
-
-- (NSString *)description {
-    return [NSString stringWithFormat:@"<%@ trading at %f >", self.ticker.symbol, self.currentPrice];
 }
 
 @end

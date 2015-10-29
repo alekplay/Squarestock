@@ -7,18 +7,19 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Ticker.h"
+
+@class Company, Price;
 
 @interface Stock : NSObject
 
-@property (nonatomic, strong) Ticker *ticker;
-@property (nonatomic)         float currentPrice;
-@property (nonatomic, strong) NSDate *tradeTime;
-@property (nonatomic)         float openPrice;
-@property (nonatomic)         float change;
-@property (nonatomic)         float pctChange;
+@property (nonatomic, strong) Company *company;
+@property (nonatomic, strong) Price *currentPrice;
+@property (nonatomic, strong) Price *openPrice;
 @property (nonatomic, strong) NSArray *historicalPrices;
+@property (nonatomic, readonly) float dailyChange;
+@property (nonatomic, readonly) float dailyChangePercent;
 
-- (instancetype)initWithTicker:(Ticker *)ticker currentPrice:(float)stockPrice time:(NSDate *)tradeTime andOpen:(float)openPrice;
+- (instancetype)initWithCompany:(Company *)company currentPrice:(Price *)currentPrice andOpenPrice:(Price *)openPrice;
+- (instancetype)initWithCompany:(Company *)company currentPrice:(float)currentPriceValue atTime:(NSDate *)lastTradeTime andOpenPrice:(float)openPriceValue;
 
 @end

@@ -28,7 +28,7 @@
                                     <color key="titleColor" red="0.20392156862745098" green="0.66666666666666663" blue="0.86274509803921573" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
-                                    <segue destination="axr-eB-wq0" kind="presentation" identifier="StockDetailToSearchSegue" modalTransitionStyle="crossDissolve" id="0Xo-hN-WIj"/>
+                                    <action selector="searchButtonDidPress:" destination="z4R-DT-NLy" eventType="touchUpInside" id="ZNL-1N-vL0"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="status" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VNx-3v-xKV">
@@ -119,9 +119,10 @@
                                     <constraint firstItem="JFS-W6-tWB" firstAttribute="top" secondItem="VP6-ok-Or1" secondAttribute="bottom" id="uSZ-MT-udd"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pBw-Ed-2Qt" customClass="BEMSimpleLineGraphView">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pBw-Ed-2Qt" customClass="LineGraphView">
                                 <rect key="frame" x="0.0" y="352" width="600" height="216"/>
                                 <animations/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="216" id="lbP-JI-SVX"/>
                                 </constraints>
@@ -140,11 +141,8 @@
                                     <userDefinedRuntimeAttribute type="number" keyPath="widthLine">
                                         <real key="value" value="2"/>
                                     </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="colorYaxisLabel">
-                                        <color key="value" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="calibratedRGB"/>
-                                    </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="color" keyPath="colorPoint">
-                                        <color key="value" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="value" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="enableYAxisLabel" value="NO"/>
                                 </userDefinedRuntimeAttributes>
@@ -182,11 +180,12 @@
                         <outlet property="stockPriceLabel" destination="JFS-W6-tWB" id="ahr-Ww-jLr"/>
                         <outlet property="stockPriceTimeLabel" destination="VP6-ok-Or1" id="MvS-tU-LC0"/>
                         <outlet property="stockTickerLabel" destination="8vW-cL-VWb" id="BEb-mP-7Uu"/>
+                        <segue destination="axr-eB-wq0" kind="presentation" identifier="StockDetailToSearchSegue" modalTransitionStyle="crossDissolve" id="KWs-p5-Tqp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QU0-iq-jOz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="296" y="340"/>
+            <point key="canvasLocation" x="307" y="340"/>
         </scene>
         <!--Search View Controller-->
         <scene sceneID="IlA-97-huU">

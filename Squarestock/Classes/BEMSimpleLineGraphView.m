@@ -270,7 +270,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
             [self.delegate respondsToSelector:@selector(noDataLabelEnableForLineGraph:)] &&
             ![self.delegate noDataLabelEnableForLineGraph:self]) return;
 
-        NSLog(@"[BEMSimpleLineGraph] Data source contains no data. A no data label will be displayed and drawing will stop. Add data to the data source and then reload the graph.");
+        //NSLog(@"[BEMSimpleLineGraph] Data source contains no data. A no data label will be displayed and drawing will stop. Add data to the data source and then reload the graph.");
         
 #if !TARGET_INTERFACE_BUILDER
         self.noDataLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.viewForFirstBaselineLayout.frame.size.width, self.viewForFirstBaselineLayout.frame.size.height)];

@@ -7,11 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Stock.h"
+
+@class Stock, Company;
 
 @interface StockManager : NSObject
 
 + (instancetype)sharedManager;
-- (void)getCurrentDataForTicker:(Ticker *)ticker withCompletionHandler:(void (^)(Stock *stock, NSError *error))completionHandler;
+
+- (void)getCurrentDataForCompany:(Company *)company withCompletionHandler:(void (^)(Stock *stock, NSError *error))completionHandler;
+- (void)lookupCompaniesForString:(NSString *)string withCompletionHandler:(void (^)(NSArray *companies, NSError *error))completionHandler;
 
 @end

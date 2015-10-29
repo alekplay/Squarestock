@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "BEMSimpleLineGraphView.h"
+#import "SearchViewController.h"
 
-@interface StockDetailViewController : UIViewController <BEMSimpleLineGraphDataSource, BEMSimpleLineGraphDelegate>
+
+@interface StockDetailViewController : UIViewController <BEMSimpleLineGraphDataSource, BEMSimpleLineGraphDelegate, SearchViewControllerDelegate>
 
 @end
